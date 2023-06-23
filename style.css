@@ -1,0 +1,105 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #1d1425;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+h1{
+    font-size: 50px;
+    color: white;
+    font-family: sans-serif;
+    padding: 18px;
+}
+h2{
+    font-size: 35px;
+    margin-bottom: 15px;
+    color: white;
+    text-shadow: 0 0 5px #333;
+    font-family:monospace;
+}
+h2 span{
+    color: #391258;
+    text-shadow: 0 0 6px #ae5ad4;
+    font-size: 38px;
+}
+.titulo{
+    font-size: 22px;
+    margin-bottom: 28px;
+    margin-left: 50px;
+    padding: 6px 19px;
+    text-align: center;
+    border-radius: 9px 24px;
+    background-color: #39125873;
+    color: rgba(255, 255, 255, 0.74);
+}
+.titulo p span{
+    color: #fff;
+    text-shadow: 0 0 6px #ae5ad4;
+    font-size: 26px;
+}
+#imgTNA{
+    cursor: pointer;
+}
+.contenedor{
+    width: 50%;
+    background-color: #333;
+    padding: 10px 20px;
+    margin: 50px 200px;
+}
+.inputs input{
+    cursor: pointer;
+    accent-color: #391258;
+}
+
+.inputs label{
+    color: #c9c7c7;
+}
+.info{
+    padding: 10px;
+}
+
+.cotizado{
+    margin-top: 50px;
+}
+.PFFinal{
+    background-color: #c9c7c7;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 0 8px #000;
+}
+.infoPFFinal{
+    text-align: center;
+}
+.infoAdicional span{
+    color: #000;
+    font-weight: bold;
+}
+.montoMeses{
+    margin-bottom: 50px;
+    font-size: 20px;
+}
+.montoMeses label{
+    color: white;
+}
+.diasContainer h3, .montosContainer h3{
+    color: #c9c7c7;
+    padding-top: 25px;
+}
+select, button, #otroMonto input, #otrosDias input, #tna input{
+    width: 200px;
+    padding: 5px;
+    background-color: #b57ee2;
+    color: white;
+    border: solid 2px #391258;
+    border-radius: 5px;
+}
+input, label, select{
+    display: inline-block;
+}
+.botones{
+    float: right;
+    margin-left: 50px;
+}
