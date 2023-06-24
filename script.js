@@ -20,13 +20,54 @@ let nombreUser = ""
 function cliente(){
     if (nombreUserLS){
         nombreUser = nombreUserLS
-        TNA()
+        tipoInversion = localStorage.getItem("tipoInversion")
+
+        if (tipoInversion == "pesos"){
+            TNA()
+        }else{
+            TNADolares()
+        }
     }else{
         nombre = document.getElementById("tna")
         nombre.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
-        <p> Ingrese su nombre para continuar: <input type="text" id="nombreUser"> <input type="submit" value="Aceptar" onClick="TNA()"> </p>
+        <p> Ingrese su nombre para continuar: <input type="text" id="nombreUser"> </p> 
+        <p> Tipo de plazo fijo:
+            <input type="radio" name="tipoPF" value="pesos" onchange="tipoPlazoFijo()">
+            <label for="pesos"> Pesos </label>
+            <input type="radio" name="tipoPF" value="dolares" onchange="tipoPlazoFijo()">
+            <label for="dolares"> Dolares </label></p>
         `
+        
+    }
+}
+
+function tipoPlazoFijo(){
+    
+    const nameYTipo = document.getElementById("aceptarNameYTipo")
+    if(nameYTipo){
+        ""
+    }else{
+        let tipoPF = document.getElementById("tna")
+        let divTipoPF = document.createElement("div")
+        divTipoPF.innerHTML = `
+        <input type="submit" value="Aceptar" id="aceptarNameYTipo" onclick="mostrarContenido()"> `
+        tipoPF.append(divTipoPF)
+    }
+    
+    
+}
+
+function mostrarContenido(){
+    let tipoElegido = document.querySelector('input[name="tipoPF"]:checked').value
+
+    localStorage.setItem("tipoInversion", tipoElegido)
+
+    const nashei = document.getElementById("aceptarNameYTipo")
+    if(tipoElegido == "pesos"){
+        nashei.addEventListener("click", TNA())
+    }else{
+        nashei.click = TNADolares()
     }
 }
 
@@ -38,14 +79,19 @@ class TasaNominalActual{
     }
 }
 const tnaHoy = new TasaNominalActual (97)
+const tnaHoyDolares = new TasaNominalActual(0.15)
 
 function TNA(){
+    localStorage.setItem("tipoInversion", "pesos")
+
     if (nombreUserLS){
         let mostrarTNA = document.getElementById("tna")
         mostrarTNA.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
-        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en <strong>Coder</strong>Bank </p>
-        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>`
+        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en pesos en <strong>Coder</strong>Bank </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>
+        <p onclick="TNADolares()" id="cambiarPF"> Hacer en dolares </p>`
+        
 
     }else{
         let nombreUser = document.getElementById("nombreUser").value
@@ -54,8 +100,10 @@ function TNA(){
         let mostrarTNA = document.getElementById("tna")
         mostrarTNA.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
-        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en <strong>Coder</strong>Bank </p>
-        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>`
+        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en pesos en <strong>Coder</strong>Bank </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>
+        <p onclick="TNADolares()" id="cambiarPF"> Hacer en dolares </p>`
+        
         
     }
     
@@ -68,8 +116,72 @@ function TNA(){
         )
     }
 
-    elegirMonto()
-    elegirDias()
+    let montosSeleccion = document.getElementById("inputsMontos")
+    if (montosSeleccion){
+    }else{
+        elegirMonto()
+        
+    }
+
+    let diasSeleccion = document.getElementById("diasSelect")
+    if (diasSeleccion){
+    }else{
+        elegirDias()
+    }
+
+    const botonCalcular = document.getElementById("botonCalcular")
+    botonCalcular.innerHTML = '<button type="submit" onclick="cotizarPlazoFijo()">Calcular Plazo Fijo</button>'
+
+}
+
+function TNADolares(){
+    localStorage.setItem("tipoInversion", "dolares")
+
+
+    if (nombreUserLS){
+        let mostrarTNA = document.getElementById("tna")
+        mostrarTNA.innerHTML = `
+        <h2>Coder<span>Bank</span></h2>
+        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en dolares en <strong>Coder</strong>Bank </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span>. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
+        <p onclick="TNA()" id="cambiarPF"> Hacer en pesos </p>`
+
+    }else{
+        let nombreUser = document.getElementById("nombreUser").value
+        localStorage.setItem("userName", nombreUser)
+
+        let mostrarTNA = document.getElementById("tna")
+        mostrarTNA.innerHTML = `
+        <h2>Coder<span>Bank</span></h2>
+        <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en dolares en <strong>Coder</strong>Bank </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span>. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
+        <p onclick="TNA()" id="cambiarPF"> Hacer en pesos </p>`
+        
+    }
+
+
+    
+    const imgTNA = document.getElementById("imgTNA")
+    imgTNA.onclick = () => {
+        swal.fire(
+            '¿Que es la tasa nominal actual? (TNA)',
+            'Indica el porcentaje que se cobrará en un plazo de un año sin períodos de capitalización intermedio.',
+            'question'
+        )
+    }
+    let montosSeleccion = document.getElementById("inputsMontos")
+    if (montosSeleccion){
+    }else{
+        elegirMonto()
+        
+    }
+
+    let diasSeleccion = document.getElementById("diasSelect")
+    if (diasSeleccion){
+    }else{
+        elegirDias()
+    }
+
     const botonCalcular = document.getElementById("botonCalcular")
     botonCalcular.innerHTML = '<button type="submit" onclick="cotizarPlazoFijo()">Calcular Plazo Fijo</button>'
 
@@ -119,7 +231,7 @@ function elegirMonto(){
         let divMonto = document.createElement("div")
 
         divMonto.innerHTML = `
-        <div class="inputs">
+        <div class="inputs" id="inputsMontos">
             <input type="radio" name="monto" value="${e.id}" class="montoElegido" onchange="mostrarOtroMonto()">
             <label for="${e.id}"> ${e.monto} </label>
         </div>`
@@ -162,7 +274,7 @@ function elegirDias(){
     divDiasSelect.innerHTML = `
     <label for="dias"><h3>A cuantos dias?</h3></label>
     <select name="dias" id="diasSelect" onchange="mostrarOtrosDias()">
-        <option> Eliga la cantidad de dias </option>
+        <option> Elija la cantidad de dias </option>
     </select>`
     diasSeleccion.append(divDiasSelect)
     

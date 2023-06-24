@@ -43,6 +43,13 @@ h2 span{
 #imgTNA{
     cursor: pointer;
 }
+#cambiarPF{
+    background-color: #1d1425;
+    display: inline-block;
+    padding: 6px;
+    border-radius: 9px 18px;
+    cursor: pointer;
+}
 .contenedor{
     width: 50%;
     background-color: #333;
