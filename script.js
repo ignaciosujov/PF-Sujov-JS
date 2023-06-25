@@ -7,12 +7,7 @@ function validarNumero(numero, mensaje){
 }
 
 
-fetch('https://api.bluelytics.com.ar/v2/latest')
-    .then((resp) => resp.json())
-    .then((data) => {
-        console.log(data.blue)
-        console.log(data.blue.value_buy)
-    })
+
 
 let nombreUserLS = localStorage.getItem("userName")
 let nombreUser = ""
@@ -25,18 +20,18 @@ function cliente(){
         if (tipoInversion == "pesos"){
             TNA()
         }else{
-            TNADolares()
+            pedirDolar()
         }
     }else{
         nombre = document.getElementById("tna")
         nombre.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
-        <p> Ingrese su nombre para continuar: <input type="text" id="nombreUser"> </p> 
-        <p> Tipo de plazo fijo:
+        <p> Ingrese su nombre para continuar:</p> <input type="text" id="nombreUser">  
+        <div class="elegirPF"><p> Tipo de plazo fijo:</p>
             <input type="radio" name="tipoPF" value="pesos" onchange="tipoPlazoFijo()">
             <label for="pesos"> Pesos </label>
             <input type="radio" name="tipoPF" value="dolares" onchange="tipoPlazoFijo()">
-            <label for="dolares"> Dolares </label></p>
+            <label for="dolares"> Dolares </label></div>
         `
         
     }
@@ -67,7 +62,7 @@ function mostrarContenido(){
     if(tipoElegido == "pesos"){
         nashei.addEventListener("click", TNA())
     }else{
-        nashei.click = TNADolares()
+        nashei.addEventListener("click"), pedirDolar()
     }
 }
 
@@ -90,7 +85,7 @@ function TNA(){
         <h2>Coder<span>Bank</span></h2>
         <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en pesos en <strong>Coder</strong>Bank </p>
         <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>
-        <p onclick="TNADolares()" id="cambiarPF"> Hacer en dolares </p>`
+        <p onclick="pedirDolar()" id="cambiarPF"> Hacer en dolares </p>`
         
 
     }else{
@@ -102,7 +97,7 @@ function TNA(){
         <h2>Coder<span>Bank</span></h2>
         <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en pesos en <strong>Coder</strong>Bank </p>
         <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoy.tasa}%</span>. Actualizado al ${tnaHoy.fecha.toLocaleDateString()}  </p>
-        <p onclick="TNADolares()" id="cambiarPF"> Hacer en dolares </p>`
+        <p onclick="pedirDolar()" id="cambiarPF"> Hacer en dolares </p>`
         
         
     }
@@ -120,7 +115,6 @@ function TNA(){
     if (montosSeleccion){
     }else{
         elegirMonto()
-        
     }
 
     let diasSeleccion = document.getElementById("diasSelect")
@@ -134,32 +128,45 @@ function TNA(){
 
 }
 
-function TNADolares(){
-    localStorage.setItem("tipoInversion", "dolares")
+const pedirDolar = async () => {
+    const valorDolar = await fetch('https://api.bluelytics.com.ar/v2/latest')
+    const data = await valorDolar.json()
+    TNADolares(data)
+}
 
+
+function TNADolares(data){
+    const dolarHoy = data.blue.value_buy
+    localStorage.setItem("tipoInversion", "dolares")
+    
 
     if (nombreUserLS){
         let mostrarTNA = document.getElementById("tna")
         mostrarTNA.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
         <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en dolares en <strong>Coder</strong>Bank </p>
-        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span>. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span> y el cambio al dolar blue es de $${dolarHoy}. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
+        <p> 
         <p onclick="TNA()" id="cambiarPF"> Hacer en pesos </p>`
-
+        
     }else{
         let nombreUser = document.getElementById("nombreUser").value
         localStorage.setItem("userName", nombreUser)
-
+        
         let mostrarTNA = document.getElementById("tna")
         mostrarTNA.innerHTML = `
         <h2>Coder<span>Bank</span></h2>
         <p> Bienvenido ${nombreUser}! Simulá tu Plazo Fijo en dolares en <strong>Coder</strong>Bank </p>
-        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span>. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
+        <p> Le informamos que la TNA<img id="imgTNA" onclick="" src="https://www.bbva.com.ar/simulador-plazo-fijo/img/help.e55ddb01.svg"> es de <span> ${tnaHoyDolares.tasa}%</span> y el cambio al dolar blue es $${dolarHoy}. Actualizado al ${tnaHoyDolares.fecha.toLocaleDateString()}  </p>
         <p onclick="TNA()" id="cambiarPF"> Hacer en pesos </p>`
         
     }
 
 
+        
+        /* let cambioDolar = document.getElementById("cambioDolar")
+        cambioDolar.innerHTML = `<p> El cambio de dolar hoy (${tnaHoyDolares.fecha.toLocaleDateString()}) es de $${data.blue.value_buy}` */
+    
     
     const imgTNA = document.getElementById("imgTNA")
     imgTNA.onclick = () => {
@@ -316,37 +323,75 @@ function mostrarOtrosDias(){
 cliente()
 
 
-function cotizarPlazoFijo(){
-    let interesMensual = montoSeleccionado * tnaHoy.tasa / 100 / 12;
-    let montoAlFinalizarPF = parseInt(interesMensual * diasSeleccionados / 30 + montoSeleccionado)
 
+function cotizarPlazoFijo(){
     let PFCotizado = document.getElementById("PFCotizado")
-    PFCotizado.innerHTML = `
-    <div class="PFFinal">
-        <div>
-            <h4> Al final del plazo fijo, recibis </h4>
-            <h2> $${montoAlFinalizarPF.toFixed(2)} </h2>
-        </div>
-        <div class="row infoPFFinal">
-            <div class="col-2">
-                <div>
-                    <span> TNA </span>
+    PFCotizado.innerHTML = `<div  class="cargando"><h4> Cargando </h4></div>`
+    const cargando = setInterval(() => {
+        setTimeout(() => {
+            PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando </h4></div>`
+        }, 0)
+        setTimeout(() => {
+            PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando. </h4></div>`
+        }, 500)
+        setTimeout(() => {
+            PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando.. </h4></div>`
+        }, 1000)
+        setTimeout(() => {
+            PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando... </h4></div>`
+        }, 1500)
+        
+    }, 1700)
+    
+    setTimeout(() => {
+        clearInterval(cargando)
+    }, 3999)
+
+    const tipoInversion = localStorage.getItem("tipoInversion")
+    
+    setTimeout(() => {
+        let TNAFinal = ""
+        let tipoMoneda = ""
+        let mensajeconversion = ""
+        if (tipoInversion === "pesos"){
+            TNAFinal = tnaHoy.tasa
+            tipoMoneda = "$"
+        }else{
+            TNAFinal = tnaHoyDolares.tasa
+            tipoMoneda = "USD"
+        }
+        
+        let interesMensual = montoSeleccionado * TNAFinal / 100 / 12;
+        let montoAlFinalizarPF = parseFloat(interesMensual * diasSeleccionados / 30 + montoSeleccionado)
+        let PFCotizado = document.getElementById("PFCotizado")
+        PFCotizado.innerHTML = `
+        <div class="PFFinal">
+            <div>
+                <h4> Al final del plazo fijo, recibis </h4>
+                <h2> ${tipoMoneda} ${montoAlFinalizarPF.toFixed(2)} </h2>
+            </div>
+            <div class="row infoPFFinal">
+                <div class="col-2">
+                    <div>
+                        <span> TNA </span>
+                    </div>
+                    <div class="infoAdicional">
+                        <span> ${TNAFinal}% </span>
+                    </div>
                 </div>
-                <div class="infoAdicional">
-                    <span> ${tnaHoy.tasa}% </span>
+                <div class="col-10">
+                    <div>
+                        <span> Interes mensual </span>
+                    </div>
+                    <div class="infoAdicional">
+                        <span> ${tipoMoneda} ${interesMensual.toFixed(2)} </span>
+                    </div>
                 </div>
             </div>
-            <div class="col-10">
-                <div>
-                    <span> Interes mensual </span>
-                </div>
-                <div class="infoAdicional">
-                    <span> $${interesMensual.toFixed(2)} </span>
-                </div>
-            </div>
-        </div>
-    </div>`
-}
+        </div>`
+    }
+
+, 5000)}
 
 
 
