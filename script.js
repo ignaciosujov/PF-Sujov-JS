@@ -62,7 +62,7 @@ function mostrarContenido(){
     if(tipoElegido == "pesos"){
         nashei.addEventListener("click", TNA())
     }else{
-        nashei.addEventListener("click"), pedirDolar()
+        nashei.addEventListener("click", pedirDolar())
     }
 }
 
@@ -161,11 +161,6 @@ function TNADolares(data){
         <p onclick="TNA()" id="cambiarPF"> Hacer en pesos </p>`
         
     }
-
-
-        
-        /* let cambioDolar = document.getElementById("cambioDolar")
-        cambioDolar.innerHTML = `<p> El cambio de dolar hoy (${tnaHoyDolares.fecha.toLocaleDateString()}) es de $${data.blue.value_buy}` */
     
     
     const imgTNA = document.getElementById("imgTNA")
@@ -322,7 +317,7 @@ function mostrarOtrosDias(){
 
 cliente()
 
-
+let montoAlFinalizarPF = ""
 
 function cotizarPlazoFijo(){
     let PFCotizado = document.getElementById("PFCotizado")
@@ -333,36 +328,37 @@ function cotizarPlazoFijo(){
         }, 0)
         setTimeout(() => {
             PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando. </h4></div>`
-        }, 500)
+        }, 50)
         setTimeout(() => {
             PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando.. </h4></div>`
-        }, 1000)
+        }, 500)
         setTimeout(() => {
             PFCotizado.innerHTML = `<div class="cargando"><h4> Cargando... </h4></div>`
-        }, 1500)
+        }, 1300)
         
     }, 1700)
     
     setTimeout(() => {
         clearInterval(cargando)
-    }, 3999)
+    }, 3100)
 
     const tipoInversion = localStorage.getItem("tipoInversion")
     
     setTimeout(() => {
         let TNAFinal = ""
         let tipoMoneda = ""
-        let mensajeconversion = ""
         if (tipoInversion === "pesos"){
             TNAFinal = tnaHoy.tasa
             tipoMoneda = "$"
         }else{
             TNAFinal = tnaHoyDolares.tasa
             tipoMoneda = "USD"
+            conversionAPesos()
         }
-        
+
+
         let interesMensual = montoSeleccionado * TNAFinal / 100 / 12;
-        let montoAlFinalizarPF = parseFloat(interesMensual * diasSeleccionados / 30 + montoSeleccionado)
+        montoAlFinalizarPF = parseFloat(interesMensual * diasSeleccionados / 30 + montoSeleccionado)
         let PFCotizado = document.getElementById("PFCotizado")
         PFCotizado.innerHTML = `
         <div class="PFFinal">
@@ -390,8 +386,21 @@ function cotizarPlazoFijo(){
             </div>
         </div>`
     }
+    , 4500)
+}
 
-, 5000)}
+function conversionAPesos(){
+    fetch('https://api.bluelytics.com.ar/v2/latest')
+    .then((res) => res.json())
+    .then((data) => {
+        let valorDolar = data.blue.value_buy
+        let PFCotizado = document.getElementById("PFCotizado")
+        let DivPFCotizado = document.createElement("div")
+        DivPFCotizado.innerHTML = `
+        <div class="PFFinal"><p> Siendo equivalente en pesos a: <h5>$${montoAlFinalizarPF * valorDolar} </h5></p></div>`
+        PFCotizado.append(DivPFCotizado)
+    })
+}
 
 
 
