@@ -28,7 +28,6 @@ h2 span{
 .titulo{
     font-size: 22px;
     margin-bottom: 28px;
-    margin-left: 50px;
     padding: 6px 19px;
     text-align: center;
     border-radius: 9px 24px;
@@ -63,7 +62,6 @@ h2 span{
     width: 50%;
     background-color: #333;
     padding: 10px 20px;
-    margin: 50px 200px;
 }
 .inputs input{
     cursor: pointer;
@@ -105,10 +103,13 @@ h2 span{
     color: #c9c7c7;
     padding-top: 25px;
 }
+#inputsMontos{
+    margin-left: 25px;
+}
 select, button, #otroMonto input, #otrosDias input, #tna input{
     width: 200px;
     padding: 5px;
-    background-color: #b57ee2;
+    background-color: #39125873;
     color: white;
     border: solid 2px #391258;
     border-radius: 5px;

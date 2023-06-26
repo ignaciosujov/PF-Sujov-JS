@@ -7,8 +7,6 @@ function validarNumero(numero, mensaje){
 }
 
 
-
-
 let nombreUserLS = localStorage.getItem("userName")
 let nombreUser = ""
 
@@ -138,7 +136,7 @@ const pedirDolar = async () => {
 function TNADolares(data){
     const dolarHoy = data.blue.value_buy
     localStorage.setItem("tipoInversion", "dolares")
-    
+
 
     if (nombreUserLS){
         let mostrarTNA = document.getElementById("tna")
@@ -318,6 +316,8 @@ function mostrarOtrosDias(){
 cliente()
 
 let montoAlFinalizarPF = ""
+let TNAFinal = ""
+let tipoMoneda = ""
 
 function cotizarPlazoFijo(){
     let PFCotizado = document.getElementById("PFCotizado")
@@ -345,8 +345,6 @@ function cotizarPlazoFijo(){
     const tipoInversion = localStorage.getItem("tipoInversion")
     
     setTimeout(() => {
-        let TNAFinal = ""
-        let tipoMoneda = ""
         if (tipoInversion === "pesos"){
             TNAFinal = tnaHoy.tasa
             tipoMoneda = "$"
@@ -363,7 +361,7 @@ function cotizarPlazoFijo(){
         PFCotizado.innerHTML = `
         <div class="PFFinal">
             <div>
-                <h4> Al final del plazo fijo, recibis </h4>
+                <h4> Al final del plazo fijo, recibis: </h4>
                 <h2> ${tipoMoneda} ${montoAlFinalizarPF.toFixed(2)} </h2>
             </div>
             <div class="row infoPFFinal">
@@ -385,9 +383,31 @@ function cotizarPlazoFijo(){
                 </div>
             </div>
         </div>`
+        guardarMov()
     }
     , 4500)
+
 }
+
+function guardarMov(){
+    class Movimiento{
+        constructor(tipo, monto){
+            this.tipo = tipo,
+            this.monto = monto,
+            this.fecha = new Date()
+        }
+    }
+    
+    const MOVIMIENTOS = [
+        new Movimiento(tipoInversion, montoAlFinalizarPF, this.fecha),
+        new Movimiento("pesos", 10000, this.fecha)
+    ]
+    
+    localStorage.setItem("Movimiento", MOVIMIENTOS)
+    localStorage.setItem("Movimiento", JSON.stringify(MOVIMIENTOS))
+}
+
+
 
 function conversionAPesos(){
     fetch('https://api.bluelytics.com.ar/v2/latest')

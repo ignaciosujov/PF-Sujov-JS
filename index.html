@@ -10,43 +10,44 @@
 </head>
 <body>
     <h1>Hola, este es un simulador de plazo fijo.</h1>
-    <div class="contenedor">
-        <div class="titulo" id="tna">
-            <h2>Coder<span>Bank</span></h2>
-            <p>Simula tu Plazo Fijo en CoderBank</p>
-        </div>
-        <div id="cambioDolar"></div>
-        <div class="info row">
-            <div class="montosContainer col-6">
-                <div id="montosSeleccion" class="montos">
-                    
+    <div class="d-flex justify-content-center">
+        <div class="contenedor">
+            <div class="titulo" id="tna">
+                <h2>Coder<span>Bank</span></h2>
+                <p>Simula tu Plazo Fijo en CoderBank</p>
+            </div>
+            <div id="cambioDolar"></div>
+            <div class="info row">
+                <div class="montosContainer col-6">
+                    <div id="montosSeleccion" class="montos  d-flex justify-content-center flex-column">
+                        
+                    </div>
+                    <div id="otroMonto" style="display: none;">
+                        <label for="montoPersonalizado"><h3>Ingrese monto deseado</h3></label>
+                        <input type="number" name="" id="montoPersonalizado" onchange="mostrarOtroMonto()">
+                    </div>
                 </div>
-                <div id="otroMonto" style="display: none;">
-                    <label for="montoPersonalizado"><h3>Ingrese monto deseado</h3></label>
-                    <input type="number" name="" id="montoPersonalizado" onchange="mostrarOtroMonto()">
+                <div class="diasContainer col-6 d-flex justify-content-center">
+                    <div id="cantDias">
+                        
+                    </div>
+                    <div id="otrosDias" style="display: none;">
+                        <label for="diasPersonalizados"><h3>Ingrese dias deseados</h3></label>
+                        <input type="number" name="" id="diasPersonalizados" onchange="mostrarOtrosDias()">        
+                    </div>
                 </div>
             </div>
-            <div class="diasContainer col-6">
-                <div id="cantDias">
-                    
-                </div>
-                <div id="otrosDias" style="display: none;">
-                    <label for="diasPersonalizados"><h3>Ingrese dias deseados</h3></label>
-                    <input type="number" name="" id="diasPersonalizados" onchange="mostrarOtrosDias()">        
-                </div>
-            </div>
-        </div>
-        <div class="cotizado row">
-            <div id="PFCotizado" class="col-6">
+            <div class="cotizado row">
+                <div id="PFCotizado" class="col-6">
 
-            </div>
-            <div class="botones col-4" id="botonCalcular">
+                </div>
+                <div class="botones col-4" id="botonCalcular">
 
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="opcionesDeMontos"></div>
+        <div id="opcionesDeMontos"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
