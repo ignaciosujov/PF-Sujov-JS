@@ -13,7 +13,7 @@ let nombreUser = ""
 function cliente(){
     if (nombreUserLS){
         nombreUser = nombreUserLS
-        tipoInversion = localStorage.getItem("tipoInversion")
+        let tipoInversion = localStorage.getItem("tipoInversion")
 
         if (tipoInversion == "pesos"){
             TNA()
@@ -384,30 +384,113 @@ function cotizarPlazoFijo(){
             </div>
         </div>`
         guardarMov()
+        mostrarMov()
     }
     , 4500)
-
 }
 
-function guardarMov(){
-    class Movimiento{
-        constructor(tipo, monto){
-            this.tipo = tipo,
-            this.monto = monto,
-            this.fecha = new Date()
-        }
+
+class Movimiento {
+    constructor(tipo, monto) {
+    this.tipo = tipo;
+    this.monto = monto;
+    this.fecha = new Date();
     }
-    
-    const MOVIMIENTOS = [
-        new Movimiento(tipoInversion, montoAlFinalizarPF, this.fecha),
-        new Movimiento("pesos", 10000, this.fecha)
-    ]
-    
-    localStorage.setItem("Movimiento", MOVIMIENTOS)
-    localStorage.setItem("Movimiento", JSON.stringify(MOVIMIENTOS))
 }
 
 
+
+function guardarMov() {
+    tipoInversion = localStorage.getItem("tipoInversion")
+
+    let movimientos = localStorage.getItem("Movimiento");
+    if (movimientos) {
+        movimientos = JSON.parse(movimientos);
+    } else {
+        movimientos = [];
+    }
+
+    const nuevoMovimiento = new Movimiento(tipoInversion, montoAlFinalizarPF);
+    movimientos.push(nuevoMovimiento);
+
+    localStorage.setItem("Movimiento", JSON.stringify(movimientos));
+
+    
+}
+
+/* function mostrarMov(){
+    let movs = localStorage.getItem("Movimiento")
+    movs = JSON.parse(movs)
+    console.log(movs)
+
+    if(movs !== null){
+
+        
+            nuevoMovimiento.forEach(e => {
+                let contenedorMovs = document.getElementById("contenedorMovs")
+                contenedorMovs.innerHTML = `
+                <P> ${e.tipo} </p>`
+            }
+            )
+    }else{
+        ""
+    }
+} */
+
+
+function mostrarMov() {
+    const movimientos = localStorage.getItem("Movimiento");
+
+    if (movimientos) {
+        const movimientosArray = JSON.parse(movimientos);
+        const contenedorMovs = document.getElementById("contenedorMovs");
+
+    contenedorMovs.innerHTML = `
+        <div id="movsPrincipal">
+            <div class="row titulosMovs1">
+                <div class="col-12 titMov">Ultimos movimientos</div>
+                <div class="col-4">Tipo</div>
+                <div class="col-4">Monto</div>
+                <div class="col-4">Fecha</div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div id="clearMovs" class="col-12"><button class="d-flex justify-content-center" onclick="clearMov()">Eliminar Movimientos</button></div>
+        </div>`
+
+
+        const movsPrincipal = document.getElementById("movsPrincipal")
+        movimientosArray.forEach((movimiento) => {
+            let signoMoneda = movimiento.tipo
+            if (signoMoneda === "pesos"){
+                signoMoneda = "$"
+            }else{
+                signoMoneda = "USD"
+            }
+
+            const elementoMovimiento = document.createElement("div");
+            const fechaFormateada = new Date(movimiento.fecha).toLocaleString();
+            elementoMovimiento.innerHTML = `
+            <div class="row titulosMovs2">
+                <div class="col-4">${movimiento.tipo}</div>
+                <div class="col-4">${signoMoneda} ${movimiento.monto.toFixed(2)}</div>
+                <div class="col-4">${fechaFormateada}</div>
+            </div>`;
+
+            movsPrincipal.append(elementoMovimiento)
+
+        })
+    }
+}
+
+mostrarMov()
+
+function clearMov(){
+    localStorage.removeItem("Movimiento")
+    const contenedorMovs = document.getElementById("contenedorMovs");
+    contenedorMovs.innerHTML = ""
+
+}
 
 function conversionAPesos(){
     fetch('https://api.bluelytics.com.ar/v2/latest')
@@ -421,8 +504,6 @@ function conversionAPesos(){
         PFCotizado.append(DivPFCotizado)
     })
 }
-
-
 
 
 

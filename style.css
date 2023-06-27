@@ -33,6 +33,11 @@ h2 span{
     border-radius: 9px 24px;
     background-color: #39125873;
     color: rgba(255, 255, 255, 0.74);
+    border: 2px solid #391258;
+
+}
+#aceptarNameYTipo{
+    margin-top: 45px;
 }
 .titulo p{
     margin-bottom: 25px;
@@ -62,6 +67,8 @@ h2 span{
     width: 50%;
     background-color: #333;
     padding: 10px 20px;
+    border: 2px solid #391258;
+border-radius: 7px;
 }
 .inputs input{
     cursor: pointer;
@@ -124,3 +131,27 @@ input, label, select{
 .cargando h4{
     color: #ae5ad4;
 }
+#movsPrincipal{
+    background-color: #221f22e5;
+    margin: 15px 40px;
+    padding: 15px;
+    border: 5px solid #391258;
+    border-radius: 7px;
+    color: #c9c7c7;
+    text-align: center;
+}
+.titulosMovs1{
+    color: #fff;
+    text-shadow: 0 0 6px #ae5ad4;
+    font-size: 18px;
+}
+.titulosMovs1, .titulosMovs2{
+    border-bottom: 4px solid #39125873;
+}
+.titMov{
+    padding-bottom: 7px;
+}
+#clearMovs{
+    width: auto;
+}
+
